@@ -36,10 +36,6 @@ out/
 vite.config.ts.timestamp-*
 
 
-# ─── TANSTACK ROUTER (auto-generated) ────────
-src/routeTree.gen.ts
-
-
 # ─── SUPABASE LOCAL ──────────────────────────
 supabase/.branches
 supabase/.temp
@@ -112,3 +108,8 @@ Desktop.ini
 *.orig
 .temp/
 tmp/
+
+
+*_(1).ts
+*_(1).jpg
+temp.txt

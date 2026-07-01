@@ -6,10 +6,10 @@ import { Button } from "@/components/ui/button";
 type Slide = { id: string; image_url: string; title: string | null; subtitle: string | null; link_url: string | null };
 
 const FALLBACK: Slide[] = [
-  { id: "f1", image_url: "/hero-1.jpg", title: "Every match. Every decision.", subtitle: "AI-assisted refereeing, broadcast-grade streaming.", link_url: "/live" },
-  { id: "f2", image_url: "/hero-2.jpg", title: "Built for officials.", subtitle: "VAR replay, decision logs, instant overrides.", link_url: "/about" },
-  { id: "f3", image_url: "/hero-3.jpg", title: "From local courts to the big stage.", subtitle: "Football, basketball, volleyball and beyond.", link_url: "/leagues" },
-  { id: "f4", image_url: "/hero-4.jpg", title: "Run your league like a pro.", subtitle: "Registration, scheduling, standings — all in one.", link_url: "/register/league" },
+  { id: "f1", image_url: "/images/hero-1.jpg", title: "Every match. Every decision.", subtitle: "AI-assisted refereeing, broadcast-grade streaming.", link_url: "/live" },
+  { id: "f2", image_url: "/images/hero-2.jpg", title: "Built for officials.", subtitle: "VAR replay, decision logs, instant overrides.", link_url: "/about" },
+  { id: "f3", image_url: "/images/hero-3.jpg", title: "From local courts to the big stage.", subtitle: "Football, basketball, volleyball and beyond.", link_url: "/leagues" },
+  { id: "f4", image_url: "/images/hero-4.jpg", title: "Run your league like a pro.", subtitle: "Registration, scheduling, standings — all in one.", link_url: "/register/league" },
 ];
 
 export function HeroSlideshow() {

@@ -1,16 +1,20 @@
-import { useState, useEffect } from 'react';
-import { supabase } from '@/integrations/supabase/client';
+import { useEffect, useMemo, useState } from 'react';
 import type { User } from '@supabase/supabase-js';
-
-type UserRole = 'super_admin' | 'league_owner' | 'team_owner' | 'coach' | 'moderator' | 'viewer' | 'camera_operator' | 'commentator';
+import { supabase } from '@/integrations/supabase/client';
+import type { AccountStatus, UserRole } from '@/lib/roles';
 
 type Profile = {
   id: string;
+  first_name: string | null;
+  last_name: string | null;
   display_name: string | null;
   email: string | null;
+  phone: string | null;
   role: UserRole;
-  account_status: 'pending' | 'approved' | 'suspended';
+  account_status: AccountStatus;
+  mfa_enabled: boolean;
   created_at: string;
+  last_login: string | null;
 };
 
 export function useAuth() {
@@ -18,66 +22,46 @@ export function useAuth() {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
 
+  async function loadProfile(userId: string) {
+    const { data, error } = await supabase.from('profiles').select('*').eq('id', userId).maybeSingle();
+    if (error) throw error;
+    setProfile((data as Profile | null) ?? null);
+  }
+
   useEffect(() => {
-    // Get initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    let active = true;
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
+      if (!active) return;
       setUser(session?.user ?? null);
+      if (session?.user) await loadProfile(session.user.id);
       setLoading(false);
     });
 
-    // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
       setUser(session?.user ?? null);
-      if (!session?.user) {
-        setProfile(null);
-      }
+      if (session?.user) await loadProfile(session.user.id);
+      else setProfile(null);
+      setLoading(false);
     });
 
     return () => {
+      active = false;
       subscription.unsubscribe();
     };
   }, []);
 
-  // Fetch profile when user changes
-  useEffect(() => {
-    if (!user) {
-      setProfile(null);
-      return;
-    }
-
-    supabase
-      .from('profiles')
-      .select('*')
-      .eq('id', user.id)
-      .maybeSingle()
-      .then(({ data }) => {
-        if (data) {
-          setProfile(data as Profile);
-        }
-      });
-  }, [user]);
-
-  const hasRole = (requiredRole: UserRole | UserRole[]): boolean => {
+  const hasRole = useMemo(() => (required: UserRole | UserRole[]) => {
     if (!profile) return false;
-    const roles = Array.isArray(requiredRole) ? requiredRole : [requiredRole];
-
-    // Super admin has access to everything
     if (profile.role === 'super_admin') return true;
-
+    const roles = Array.isArray(required) ? required : [required];
     return roles.includes(profile.role);
-  };
+  }, [profile]);
 
-  const signOut = async () => {
+  async function signOut() {
     await supabase.auth.signOut();
     setUser(null);
     setProfile(null);
-  };
+  }
 
-  return {
-    user,
-    profile,
-    loading,
-    hasRole,
-    signOut,
-  };
+  return { user, profile, loading, hasRole, isApproved: profile?.account_status === 'approved', reloadProfile: loadProfile, signOut };
 }

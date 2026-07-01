@@ -1,5 +1,5 @@
 import { createFileRoute, Link, Outlet, useNavigate } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { useEffect , type ReactNode } from "react";
 import { Trophy, Users, Settings, Home } from "lucide-react";
 import { PageShell } from "@/components/layout/PageShell";
 import { useAuth } from "@/hooks/use-auth";
@@ -32,7 +32,7 @@ function DashboardLayout() {
   );
 }
 
-function SideLink({ to, icon, children }: { to: string; icon: React.ReactNode; children: React.ReactNode }) {
+function SideLink({ to, icon, children }: { to: string; icon: ReactNode; children: ReactNode }) {
   return (
     <Link
       to={to}

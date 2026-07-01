@@ -1,5 +1,5 @@
 import { createFileRoute, Link, Outlet, useNavigate } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { useEffect , type ReactNode } from "react";
 import {
   ShieldCheck,
   Users,
@@ -68,7 +68,7 @@ function AdminLayout() {
   );
 }
 
-function SideLink({ to, icon, children }: { to: string; icon: React.ReactNode; children: React.ReactNode }) {
+function SideLink({ to, icon, children }: { to: string; icon: ReactNode; children: ReactNode }) {
   return (
     <Link
       to={to}

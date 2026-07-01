@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useState , type ReactNode } from "react";
 import { toast } from "sonner";
 import { Save } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -200,7 +200,7 @@ function LedgerPanel() {
   );
 }
 
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
+function Field({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div className="space-y-1">
       <Label className="text-xs">{label}</Label>

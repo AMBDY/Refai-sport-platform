@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useEffect, useState , type ReactNode } from "react";
 import { toast } from "sonner";
 import {
   Play, Pause, Square, Plus, Minus, AlertTriangle, Flag,
@@ -769,7 +769,7 @@ function ScorePanel({ name, score, color, onPlus, onMinus }: { name: string; sco
   );
 }
 
-function StatCard({ label, value, icon }: { label: string; value: string; icon: React.ReactNode }) {
+function StatCard({ label, value, icon }: { label: string; value: string; icon: ReactNode }) {
   return (
     <div className="rounded-lg border border-gray-800 p-3">
       <div className="flex items-center gap-2">

@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { PageShell } from "@/components/PageShell";
 
@@ -42,7 +43,7 @@ function About() {
   );
 }
 
-function Block({ title, children }: { title: string; children: React.ReactNode }) {
+function Block({ title, children }: { title: string; children: ReactNode }) {
   return (
     <div>
       <h2 className="font-display text-xl font-semibold text-primary">{title}</h2>

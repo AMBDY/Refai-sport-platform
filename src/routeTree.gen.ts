@@ -12,13 +12,24 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as LiveRouteImport } from './routes/live'
 import { Route as LeaguesRouteImport } from './routes/leagues'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AccountRouteImport } from './routes/account'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as MatchesIndexRouteImport } from './routes/matches/index'
+import { Route as AdminIndexRouteImport } from './routes/admin/index'
+import { Route as AdminUsersRouteImport } from './routes/admin/users'
+import { Route as AdminModerationRouteImport } from './routes/admin/moderation'
+import { Route as AdminPaymentsRouteImport } from './routes/admin/payments'
+import { Route as AdminAdsRouteImport } from './routes/admin/ads'
+import { Route as AdminSlideshowRouteImport } from './routes/admin/slideshow'
+import { Route as LiveMatchIdRouteImport } from './routes/live.$matchId'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as MatchesIdRouteImport } from './routes/matches/$id'
+import { Route as RefereeMatchIdRouteImport } from './routes/referee.$matchId'
+import { Route as CommentateMatchIdRouteImport } from './routes/commentate.$matchId'
+import { Route as ModeratorMatchIdRouteImport } from './routes/moderator.$matchId'
 import { Route as LeaguesSlugRouteImport } from './routes/leagues.$slug'
 import { Route as DashboardTeamsRouteImport } from './routes/dashboard/teams'
 import { Route as DashboardLeaguesRouteImport } from './routes/dashboard/leagues'
@@ -31,6 +42,11 @@ const LiveRoute = LiveRouteImport.update({
 const LeaguesRoute = LeaguesRouteImport.update({
   id: '/leagues',
   path: '/leagues',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardRoute = DashboardRouteImport.update({
@@ -68,9 +84,59 @@ const DashboardIndexRoute = DashboardIndexRouteImport.update({
   path: '/',
   getParentRoute: () => DashboardRoute,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminUsersRoute = AdminUsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminModerationRoute = AdminModerationRouteImport.update({
+  id: '/moderation',
+  path: '/moderation',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminPaymentsRoute = AdminPaymentsRouteImport.update({
+  id: '/payments',
+  path: '/payments',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdsRoute = AdminAdsRouteImport.update({
+  id: '/ads',
+  path: '/ads',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSlideshowRoute = AdminSlideshowRouteImport.update({
+  id: '/slideshow',
+  path: '/slideshow',
+  getParentRoute: () => AdminRoute,
+} as any)
+const LiveMatchIdRoute = LiveMatchIdRouteImport.update({
+  id: '/live/$matchId',
+  path: '/live/$matchId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MatchesIdRoute = MatchesIdRouteImport.update({
   id: '/matches/$id',
   path: '/matches/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RefereeMatchIdRoute = RefereeMatchIdRouteImport.update({
+  id: '/referee/$matchId',
+  path: '/referee/$matchId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CommentateMatchIdRoute = CommentateMatchIdRouteImport.update({
+  id: '/commentate/$matchId',
+  path: '/commentate/$matchId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ModeratorMatchIdRoute = ModeratorMatchIdRouteImport.update({
+  id: '/moderator/$matchId',
+  path: '/moderator/$matchId',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LeaguesSlugRoute = LeaguesSlugRouteImport.update({
@@ -185,11 +251,16 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   AccountRoute: typeof AccountRoute
+  AdminRoute: typeof AdminRouteWithChildren
   AuthRoute: typeof AuthRoute
   DashboardRoute: typeof DashboardRouteWithChildren
   LeaguesRoute: typeof LeaguesRouteWithChildren
   LiveRoute: typeof LiveRoute
+  LiveMatchIdRoute: typeof LiveMatchIdRoute
   MatchesIdRoute: typeof MatchesIdRoute
+  RefereeMatchIdRoute: typeof RefereeMatchIdRoute
+  CommentateMatchIdRoute: typeof CommentateMatchIdRoute
+  ModeratorMatchIdRoute: typeof ModeratorMatchIdRoute
   MatchesIndexRoute: typeof MatchesIndexRoute
 }
 
@@ -289,6 +360,26 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AdminRouteChildren {
+  AdminIndexRoute: typeof AdminIndexRoute
+  AdminUsersRoute: typeof AdminUsersRoute
+  AdminModerationRoute: typeof AdminModerationRoute
+  AdminPaymentsRoute: typeof AdminPaymentsRoute
+  AdminAdsRoute: typeof AdminAdsRoute
+  AdminSlideshowRoute: typeof AdminSlideshowRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminIndexRoute,
+  AdminUsersRoute,
+  AdminModerationRoute,
+  AdminPaymentsRoute,
+  AdminAdsRoute,
+  AdminSlideshowRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
 interface DashboardRouteChildren {
   DashboardLeaguesRoute: typeof DashboardLeaguesRoute
   DashboardTeamsRoute: typeof DashboardTeamsRoute
@@ -320,11 +411,16 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   AccountRoute: AccountRoute,
+  AdminRoute: AdminRouteWithChildren,
   AuthRoute: AuthRoute,
   DashboardRoute: DashboardRouteWithChildren,
   LeaguesRoute: LeaguesRouteWithChildren,
   LiveRoute: LiveRoute,
+  LiveMatchIdRoute: LiveMatchIdRoute,
   MatchesIdRoute: MatchesIdRoute,
+  RefereeMatchIdRoute: RefereeMatchIdRoute,
+  CommentateMatchIdRoute: CommentateMatchIdRoute,
+  ModeratorMatchIdRoute: ModeratorMatchIdRoute,
   MatchesIndexRoute: MatchesIndexRoute,
 }
 export const routeTree = rootRouteImport

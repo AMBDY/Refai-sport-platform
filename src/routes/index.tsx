@@ -15,7 +15,7 @@ export const Route = createFileRoute("/")({ component: HomePage });
 const QUICK_CARDS = [
   { to: "/live", icon: Radio, title: "Live now", desc: "Catch matches happening right now." },
   { to: "/leagues", icon: Trophy, title: "Leagues", desc: "Browse competitions, standings and fixtures." },
-  { to: "/register/team", icon: Users, title: "Register a team", desc: "Apply to a competition and onboard players." },
+  { to: "/dashboard/teams", icon: Users, title: "Register a team", desc: "Apply to a competition and onboard players." },
   { to: "/dashboard/leagues", icon: Building2, title: "Run a league", desc: "Create a league, set rules, manage matches." },
 ] as const;
 

@@ -83,7 +83,7 @@ function MatchesPage() {
                       </div>
                     </div>
                     <Badge
-                      variant={m.status === "live" ? "destructive" : m.status === "finished" ? "secondary" : "outline"}
+                      variant={m.status === "live" ? "destructive" : m.status === "completed" ? "secondary" : "outline"}
                       className="capitalize w-20 justify-center"
                     >
                       {m.status}

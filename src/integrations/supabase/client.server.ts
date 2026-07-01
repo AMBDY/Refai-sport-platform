@@ -1,1 +1,1 @@
-export { supabaseAdmin } from '@/utils/client.server';
+export { supabaseAdmin } from "@/utils/client.server";

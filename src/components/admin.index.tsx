@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { Users, Trophy, Megaphone, CreditCard, AlertTriangle } from "lucide-react";
@@ -68,7 +69,7 @@ function AdminOverview() {
   );
 }
 
-function Stat({ icon, label, value }: { icon: React.ReactNode; label: string; value: number | undefined }) {
+function Stat({ icon, label, value }: { icon: ReactNode; label: string; value: number | undefined }) {
   return (
     <Card>
       <CardHeader className="flex flex-row items-center gap-2 pb-2">

@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { useQuery } from '@tanstack/react-query';
-import { Broadcast, CalendarDays, ClipboardList, Landmark, Settings, ShieldCheck, Trophy, Users, Wallet } from 'lucide-react';
+import { Radio, CalendarDays, ClipboardList, Landmark, Settings, ShieldCheck, Trophy, Users, Wallet } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/use-auth';
 import { RoleGuard } from '@/components/auth/RoleGuard';
@@ -16,7 +16,7 @@ const modules = [
   ['Matches', CalendarDays, 'Fixtures, schedules, standings and brackets'],
   ['Wallet', Wallet, 'Balance, payments, taxes and settlement logs'],
   ['Moderators', ShieldCheck, 'Assign moderators and permissions'],
-  ['Broadcast', Broadcast, 'Cameras, commentators, overlays and graphics'],
+  ['Broadcast', Radio, 'Cameras, commentators, overlays and graphics'],
   ['Rules', ClipboardList, 'Manage rules and AI enforcement'],
   ['Settings', Settings, 'Branding, automation and AI features'],
 ] as const;

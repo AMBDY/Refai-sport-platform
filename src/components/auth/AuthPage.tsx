@@ -9,8 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
-const roleCards: Array<{ role: UserRole; icon: typeof Trophy; desc: string; internal?: boolean }> = [
-  { role: 'super_admin', icon: Shield, desc: 'Internal platform control, approvals, finance and security.', internal: true },
+const roleCards = [
   { role: 'league_owner', icon: Trophy, desc: 'Register leagues, manage teams, run competitions and finances.' },
   { role: 'team_owner', icon: Users, desc: 'Register teams, manage players, kits, formations and lineups.' },
   { role: 'coach', icon: UserRound, desc: 'View squad, edit tactics and build formations.' },
@@ -19,7 +18,7 @@ const roleCards: Array<{ role: UserRole; icon: typeof Trophy; desc: string; inte
   { role: 'commentator', icon: Headphones, desc: 'Connect audio and provide live commentary.' },
   { role: 'viewer', icon: UserRound, desc: 'Watch matches, chat, vote and follow teams.' },
   { role: 'sponsor', icon: Building2, desc: 'Manage ads and sponsor broadcasts.' },
-];
+] as const;
 
 export function AuthPage() {
   const navigate = useNavigate();
@@ -37,36 +36,69 @@ export function AuthPage() {
   }
 
   async function submit(e: React.FormEvent) {
-    e.preventDefault();
-    if (!selectedRole) return toast.error('Choose a role first');
-    if (selectedRole === 'super_admin') return toast.error('Super Admin accounts are created internally only');
-    if (inviteOnly && !form.inviteToken.trim()) return toast.error('This role requires a secure invite token');
+  e.preventDefault();
 
-    setLoading(true);
-    try {
-      if (mode === 'signin') {
-        const { data, error } = await supabase.auth.signInWithPassword({ email: form.email, password: form.password });
-        if (error) throw error;
-        const { data: profile } = await supabase.from('profiles').select('role').eq('id', data.user.id).maybeSingle();
-        navigate({ to: dashboardForRole((profile?.role as UserRole | undefined) ?? selectedRole) as never });
+  if (mode === 'signup' && !selectedRole) {
+    return toast.error('Choose a role first');
+  }
+
+  if (mode === 'signup' && selectedRole === 'super_admin') {
+    return toast.error('Super Admin accounts are created internally only');
+  }
+
+  if (
+    mode === 'signup' &&
+    selectedRole &&
+    inviteOnlyRoles.includes(selectedRole) &&
+    !form.inviteToken.trim()
+  ) {
+    return toast.error('This role requires a secure invite token');
+  }
+
+  setLoading(true);
+
+  try {
+    if (mode === 'signin') {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: form.email,
+        password: form.password,
+      });
+
+      if (error) throw error;
+
+      const { data: profile, error: profileError } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', data.user.id)
+        .maybeSingle();
+
+      if (profileError) throw profileError;
+
+      if (!profile?.role) {
+        toast.error('Account profile not found. Contact support.');
         return;
       }
 
-      const displayName = (form.firstName + ' ' + form.lastName).trim();
-      const { data, error } = await supabase.auth.signUp({
-        email: form.email,
-        password: form.password,
-        options: {
-          data: {
-            first_name: form.firstName,
-            last_name: form.lastName,
-            display_name: displayName,
-            phone: form.phone,
-            role: selectedRole,
-            invite_token: form.inviteToken || null,
-          },
+      navigate({ to: dashboardForRole(profile.role) as never });
+      return;
+    }
+
+    const displayName = (form.firstName + ' ' + form.lastName).trim();
+
+    const { data, error } = await supabase.auth.signUp({
+      email: form.email,
+      password: form.password,
+      options: {
+        data: {
+          first_name: form.firstName,
+          last_name: form.lastName,
+          display_name: displayName,
+          phone: form.phone,
+          role: selectedRole,
+          invite_token: form.inviteToken || null,
         },
-      });
+      },
+    });
       if (error) throw error;
       if (!data.user) throw new Error('Signup did not return a user');
 

@@ -10,7 +10,9 @@ function DashboardIndex() {
   const { profile, loading } = useAuth();
 
   useEffect(() => {
-    if (!loading && profile?.role) navigate({ to: dashboardForRole(profile.role) as never, replace: true });
+    if (!loading && profile?.role) {
+      navigate({ to: dashboardForRole(profile.role) as never, replace: true });
+    }
   }, [loading, profile?.role, navigate]);
 
   return <div className="rounded-lg border bg-card p-6">Preparing your dashboard...</div>;

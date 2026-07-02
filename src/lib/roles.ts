@@ -25,7 +25,7 @@ export const roleLabels: Record<UserRole, string> = {
   sponsor: 'Sponsor / Advertiser',
 };
 
-export const roleDashboards: Record<UserRole, string> = {
+export const roleDashboards = {
   super_admin: '/admin',
   league_owner: '/dashboard/league',
   team_owner: '/dashboard/team',
@@ -35,7 +35,7 @@ export const roleDashboards: Record<UserRole, string> = {
   commentator: '/dashboard/commentator',
   viewer: '/dashboard/viewer',
   sponsor: '/dashboard/sponsor',
-};
+} as const;
 
 export const inviteOnlyRoles: UserRole[] = ['moderator', 'camera_operator', 'commentator'];
 export const publicSignupRoles: UserRole[] = ['league_owner', 'team_owner', 'coach', 'viewer', 'sponsor'];

@@ -14,9 +14,10 @@ function LeaguesIndex() {
     queryKey: ["leagues", "public"],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from("leagues")
-        .select("id, slug, name, sport, country, region, logo_url, status, description")
-        .order("created_at", { ascending: false });
+      .from('league_registrations')
+      .select('*')
+      .eq('status', 'approved')
+      .order('created_at', { ascending: false });
       if (error) throw error;
       return data ?? [];
     },
@@ -35,10 +36,10 @@ function LeaguesIndex() {
           </p>
           <div className="flex gap-2">
             <Button asChild>
-              <Link to="/dashboard/leagues">Create a league</Link>
+              <Link to="/dashboard/league">Create a league</Link>
             </Button>
             <Button asChild variant="outline">
-              <Link to="/dashboard/teams">Register a team</Link>
+              <Link to="/dashboard/team">Register a team</Link>
             </Button>
           </div>
         </div>

@@ -114,11 +114,18 @@ export function AuthPage() {
         mfa_enabled: false,
       });
 
+      if (!data.session) {
+      toast.success('Account created. Please confirm your email, then sign in.');
+      setMode('signin');
+      return;
+      }
+
       toast.success('Account created. Continue onboarding.');
       navigate({ to: dashboardForRole(selectedRole) as never });
-    } catch (err) {
+      } catch (err) {
+      console.error('Auth error:', err);
       toast.error(err instanceof Error ? err.message : 'Authentication failed');
-    } finally {
+      } finally {
       setLoading(false);
     }
   }

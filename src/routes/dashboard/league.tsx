@@ -1,6 +1,17 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, Link } from '@tanstack/react-router';
 import { useQuery } from '@tanstack/react-query';
-import { Radio, CalendarDays, ClipboardList, Landmark, Settings, ShieldCheck, Trophy, Users, Wallet } from 'lucide-react';
+import {
+  CalendarDays,
+  ClipboardList,
+  Landmark,
+  Radio,
+  Settings,
+  ShieldCheck,
+  Trophy,
+  Users,
+  Wallet,
+} from 'lucide-react';
+
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/use-auth';
 import { RoleGuard } from '@/components/auth/RoleGuard';
@@ -8,38 +19,150 @@ import { LeagueRegistrationForm } from '@/components/onboarding/LeagueRegistrati
 import { InviteManager } from '@/components/onboarding/InviteManager';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
-export const Route = createFileRoute('/dashboard/league')({ component: LeagueDashboard });
+export const Route = createFileRoute('/dashboard/league')({
+  component: LeagueDashboard,
+});
 
 const modules = [
-  ['Overview', Trophy, 'Summary, upcoming matches, finances and live matches'],
-  ['Teams', Users, 'Registered, pending and rejected teams'],
-  ['Matches', CalendarDays, 'Fixtures, schedules, standings and brackets'],
-  ['Wallet', Wallet, 'Balance, payments, taxes and settlement logs'],
-  ['Moderators', ShieldCheck, 'Assign moderators and permissions'],
-  ['Broadcast', Radio, 'Cameras, commentators, overlays and graphics'],
-  ['Rules', ClipboardList, 'Manage rules and AI enforcement'],
-  ['Settings', Settings, 'Branding, automation and AI features'],
-] as const;
+  {
+    title: 'Overview',
+    href: '/dashboard/league',
+    icon: Trophy,
+    desc: 'View league summary, approval status, live matches and key activity.',
+  },
+  {
+    title: 'Teams',
+    href: '/dashboard/league/teams',
+    icon: Users,
+    desc: 'Review team registrations, approve teams, reject teams and manage team records.',
+  },
+  {
+    title: 'Matches',
+    href: '/dashboard/league/matches',
+    icon: CalendarDays,
+    desc: 'Manage fixtures, schedules, standings, brackets and match records.',
+  },
+  {
+    title: 'Wallet',
+    href: '/dashboard/league/wallet',
+    icon: Wallet,
+    desc: 'Track payments, taxes, settlements, refunds, fines and wallet ledger activity.',
+  },
+  {
+    title: 'Moderators',
+    href: '/dashboard/league/moderators',
+    icon: ShieldCheck,
+    desc: 'Create moderators, assign permissions and prepare live match control roles.',
+  },
+  {
+    title: 'Broadcast',
+    href: '/dashboard/league/broadcast',
+    icon: Radio,
+    desc: 'Manage cameras, commentators, overlays, graphics, replay assets and stream setup.',
+  },
+  {
+    title: 'Rules',
+    href: '/dashboard/league/rules',
+    icon: ClipboardList,
+    desc: 'Upload or edit league rules, match rules, player eligibility and suspension logic.',
+  },
+  {
+    title: 'Settings',
+    href: '/dashboard/league/settings',
+    icon: Settings,
+    desc: 'Edit branding, venues, automation, AI preferences, subscription and safe settings.',
+  },
+];
 
 function LeagueDashboard() {
   const { user } = useAuth();
-  const { data: leagues } = useQuery({
+
+  const { data: leagues, isLoading } = useQuery({
     queryKey: ['league-registrations', user?.id],
     enabled: !!user,
     queryFn: async () => {
-      const { data, error } = await supabase.from('league_registrations').select('*').eq('owner_id', user!.id).order('created_at', { ascending: false });
+      const { data, error } = await supabase
+        .from('league_registrations')
+        .select('*')
+        .eq('owner_id', user!.id)
+        .order('created_at', { ascending: false });
+
       if (error) throw error;
       return data ?? [];
     },
   });
 
+  const primaryLeague = leagues?.[0] as any | undefined;
+
   return (
     <RoleGuard allow="league_owner" requireApproved={false}>
       <div className="space-y-6">
-        <div><h1 className="text-2xl font-bold">League Owner Dashboard</h1><p className="text-muted-foreground">Register leagues, manage teams, wallets, broadcasts, moderators, rules, branding and automation.</p></div>
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">{modules.map(([title, Icon, desc]) => <Card key={title}><CardHeader><CardTitle className="flex items-center gap-2 text-base"><Icon className="h-4 w-4 text-primary" />{title}</CardTitle></CardHeader><CardContent><p className="text-sm text-muted-foreground">{desc}</p></CardContent></Card>)}</div>
-        <Card><CardHeader><CardTitle className="flex items-center gap-2"><Landmark className="h-5 w-5 text-primary" />My leagues</CardTitle></CardHeader><CardContent className="space-y-3">{(leagues ?? []).length === 0 ? <p className="text-sm text-muted-foreground">No league yet.</p> : leagues!.map((league: any) => <div key={league.id} className="flex flex-wrap items-center justify-between gap-3 rounded-md border p-3"><div><div className="font-medium">{league.league_name}</div><div className="text-sm text-muted-foreground">{league.sport_type} / {league.competition_type}</div></div><span className="rounded bg-muted px-2 py-1 text-xs capitalize">{league.status.replace(/_/g, ' ')}</span></div>)}</CardContent></Card>
-        <InviteManager leagueId={(leagues?.[0] as any)?.id ?? null} />
+        <div>
+          <h1 className="text-2xl font-bold">League Owner Dashboard</h1>
+          <p className="text-muted-foreground">
+            Register leagues, manage teams, wallets, broadcasts, moderators, rules, branding and automation.
+          </p>
+        </div>
+
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          {modules.map((module) => {
+            const Icon = module.icon;
+
+            return (
+              <Link key={module.title} to={module.href as never}>
+                <Card className="h-full cursor-pointer transition hover:border-primary hover:shadow-md">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-base">
+                      <Icon className="h-4 w-4 text-primary" />
+                      {module.title}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground">{module.desc}</p>
+                  </CardContent>
+                </Card>
+              </Link>
+            );
+          })}
+        </div>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Landmark className="h-5 w-5 text-primary" />
+              My Leagues
+            </CardTitle>
+          </CardHeader>
+
+          <CardContent className="space-y-3">
+            {isLoading ? (
+              <p className="text-sm text-muted-foreground">Loading your leagues...</p>
+            ) : (leagues ?? []).length === 0 ? (
+              <p className="text-sm text-muted-foreground">No league yet. Complete the registration form below.</p>
+            ) : (
+              leagues!.map((league: any) => (
+                <div
+                  key={league.id}
+                  className="flex flex-wrap items-center justify-between gap-3 rounded-md border p-3"
+                >
+                  <div>
+                    <div className="font-medium">{league.league_name}</div>
+                    <div className="text-sm text-muted-foreground">
+                      {league.sport_type} / {league.competition_type}
+                    </div>
+                  </div>
+
+                  <span className="rounded bg-muted px-2 py-1 text-xs capitalize">
+                    {String(league.status ?? 'draft').replace(/_/g, ' ')}
+                  </span>
+                </div>
+              ))
+            )}
+          </CardContent>
+        </Card>
+
+        <InviteManager leagueId={primaryLeague?.id ?? null} />
+
         <LeagueRegistrationForm />
       </div>
     </RoleGuard>

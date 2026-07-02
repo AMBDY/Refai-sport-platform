@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import type { FormEvent, InputHTMLAttributes, ReactNode } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
@@ -39,7 +40,7 @@ export function TeamRegistrationForm() {
     setUploads((current) => ({ ...current, [key]: url }));
   }
 
-  async function submit(e: React.FormEvent<HTMLFormElement>) {
+ async function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     if (!user) {
@@ -307,7 +308,7 @@ function UploadField({
   );
 }
 
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
+function Section({ title, children }: { title: string; children: ReactNode }) {
   return (
     <section>
       <h3 className="mb-3 font-semibold">{title}</h3>
@@ -316,7 +317,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   );
 }
 
-function Field(props: React.InputHTMLAttributes<HTMLInputElement> & { label: string; name: string }) {
+function Field(props: InputHTMLAttributes<HTMLInputElement> & { label: string; name: string }) {
   const { label, ...inputProps } = props;
   return (
     <div>

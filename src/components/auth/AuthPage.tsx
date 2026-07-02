@@ -60,7 +60,7 @@ export function AuthPage() {
   try {
     if (mode === 'signin') {
       const { data, error } = await supabase.auth.signInWithPassword({
-        email: form.email,
+        email: form.email.trim(),
         password: form.password,
       });
 
@@ -122,10 +122,17 @@ export function AuthPage() {
 
       toast.success('Account created. Continue onboarding.');
       navigate({ to: dashboardForRole(selectedRole) as never });
-      } catch (err) {
-      console.error('Auth error:', err);
-      toast.error(err instanceof Error ? err.message : 'Authentication failed');
-      } finally {
+      } catch (err: any) {
+  console.error('Auth error:', err);
+
+  const message =
+    err?.message ||
+    err?.error_description ||
+    err?.error ||
+    JSON.stringify(err);
+
+  toast.error(message);
+} finally {
       setLoading(false);
     }
   }

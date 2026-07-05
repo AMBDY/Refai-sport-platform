@@ -4,6 +4,7 @@ import {
   CalendarDays,
   ClipboardList,
   Landmark,
+  PlusCircle,
   Radio,
   Settings,
   ShieldCheck,
@@ -15,8 +16,8 @@ import {
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/use-auth';
 import { RoleGuard } from '@/components/auth/RoleGuard';
-import { LeagueRegistrationForm } from '@/components/onboarding/LeagueRegistrationForm';
 import { InviteManager } from '@/components/onboarding/InviteManager';
+import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export const Route = createFileRoute('/dashboard/league')({
@@ -97,11 +98,20 @@ function LeagueDashboard() {
   return (
     <RoleGuard allow="league_owner" requireApproved={false}>
       <div className="space-y-6">
-        <div>
-          <h1 className="text-2xl font-bold">League Owner Dashboard</h1>
-          <p className="text-muted-foreground">
-            Register leagues, manage teams, wallets, broadcasts, moderators, rules, branding and automation.
-          </p>
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <h1 className="text-2xl font-bold">League Owner Dashboard</h1>
+            <p className="text-muted-foreground">
+              Register leagues, manage teams, wallets, broadcasts, moderators, rules, branding and automation.
+            </p>
+          </div>
+
+          <Button asChild>
+            <Link to="/dashboard/league/register">
+              <PlusCircle className="mr-2 h-4 w-4" />
+              Register new league
+            </Link>
+          </Button>
         </div>
 
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
@@ -117,6 +127,7 @@ function LeagueDashboard() {
                       {module.title}
                     </CardTitle>
                   </CardHeader>
+
                   <CardContent>
                     <p className="text-sm text-muted-foreground">{module.desc}</p>
                   </CardContent>
@@ -138,19 +149,31 @@ function LeagueDashboard() {
             {isLoading ? (
               <p className="text-sm text-muted-foreground">Loading your leagues...</p>
             ) : (leagues ?? []).length === 0 ? (
-              <p className="text-sm text-muted-foreground">No league yet. Complete the registration form below.</p>
+              <div className="space-y-3">
+                <p className="text-sm text-muted-foreground">
+                  No league yet. Use the button above to register your first league.
+                </p>
+
+                <Button asChild>
+                  <Link to="/dashboard/league/register">Register new league</Link>
+                </Button>
+              </div>
             ) : (
               leagues!.map((league: any) => (
                 <div
                   key={league.id}
                   className="flex flex-wrap items-center justify-between gap-3 rounded-md border p-3"
                 >
-                  <div>
+                  <Link
+                    to="/dashboard/league/$leagueId"
+                    params={{ leagueId: league.id }}
+                    className="block hover:text-primary"
+                  >
                     <div className="font-medium">{league.league_name}</div>
                     <div className="text-sm text-muted-foreground">
                       {league.sport_type} / {league.competition_type}
                     </div>
-                  </div>
+                  </Link>
 
                   <span className="rounded bg-muted px-2 py-1 text-xs capitalize">
                     {String(league.status ?? 'draft').replace(/_/g, ' ')}
@@ -162,7 +185,6 @@ function LeagueDashboard() {
         </Card>
 
         <InviteManager leagueId={primaryLeague?.id ?? null} />
-
       </div>
     </RoleGuard>
   );

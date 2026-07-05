@@ -163,7 +163,6 @@ function LeagueDashboard() {
 
         <InviteManager leagueId={primaryLeague?.id ?? null} />
 
-        <LeagueRegistrationForm />
       </div>
     </RoleGuard>
   );

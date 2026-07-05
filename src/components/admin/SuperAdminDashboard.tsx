@@ -132,6 +132,16 @@ function SuperAdminControl() {
     },
   });
 
+  <Card>
+  <CardHeader>
+    <CardTitle>League Edit Approvals</CardTitle>
+  </CardHeader>
+
+  <CardContent>
+    {/* list pending league_edit_requests here */}
+  </CardContent>
+</Card>
+
   return (
     <div className="min-h-screen bg-[#07130d] p-6 text-white">
       <div className="mx-auto max-w-7xl space-y-6">

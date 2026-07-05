@@ -107,10 +107,9 @@ function LeagueDashboard() {
           </div>
 
           <Button asChild>
-            <Link to="/dashboard/league/register">
-              <PlusCircle className="mr-2 h-4 w-4" />
-              Register new league
-            </Link>
+          <a href="/dashboard/league/register">
+          Register new league
+          </a>
           </Button>
         </div>
 
@@ -119,12 +118,7 @@ function LeagueDashboard() {
     const Icon = module.icon;
 
     return (
-      <button
-        key={module.title}
-        type="button"
-        onClick={() => navigate({ to: module.href as never })}
-        className="text-left"
-      >
+      <a key={module.title} href={module.href} className="block">
         <Card className="h-full cursor-pointer transition hover:border-primary hover:shadow-md">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-base">
@@ -137,7 +131,7 @@ function LeagueDashboard() {
             <p className="text-sm text-muted-foreground">{module.desc}</p>
           </CardContent>
         </Card>
-      </button>
+      </a>
     );
   })}
 </div>

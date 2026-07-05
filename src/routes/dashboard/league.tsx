@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from '@tanstack/react-router';
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
 import { useQuery } from '@tanstack/react-query';
 import {
   CalendarDays,
@@ -77,7 +77,7 @@ const modules = [
 
 function LeagueDashboard() {
   const { user } = useAuth();
-
+  const navigate = useNavigate();
   const { data: leagues, isLoading } = useQuery({
     queryKey: ['league-registrations', user?.id],
     enabled: !!user,
@@ -115,27 +115,32 @@ function LeagueDashboard() {
         </div>
 
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          {modules.map((module) => {
-            const Icon = module.icon;
+  {modules.map((module) => {
+    const Icon = module.icon;
 
-            return (
-              <Link key={module.title} to={module.href as never}>
-                <Card className="h-full cursor-pointer transition hover:border-primary hover:shadow-md">
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2 text-base">
-                      <Icon className="h-4 w-4 text-primary" />
-                      {module.title}
-                    </CardTitle>
-                  </CardHeader>
+    return (
+      <button
+        key={module.title}
+        type="button"
+        onClick={() => navigate({ to: module.href as never })}
+        className="text-left"
+      >
+        <Card className="h-full cursor-pointer transition hover:border-primary hover:shadow-md">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-base">
+              <Icon className="h-4 w-4 text-primary" />
+              {module.title}
+            </CardTitle>
+          </CardHeader>
 
-                  <CardContent>
-                    <p className="text-sm text-muted-foreground">{module.desc}</p>
-                  </CardContent>
-                </Card>
-              </Link>
-            );
-          })}
-        </div>
+          <CardContent>
+            <p className="text-sm text-muted-foreground">{module.desc}</p>
+          </CardContent>
+        </Card>
+      </button>
+    );
+  })}
+</div>
 
         <Card>
           <CardHeader>
@@ -154,8 +159,8 @@ function LeagueDashboard() {
                   No league yet. Use the button above to register your first league.
                 </p>
 
-                <Button asChild>
-                  <Link to="/dashboard/league/register">Register new league</Link>
+                <Button onClick={() => navigate({ to: '/dashboard/league/register' as never })}>
+                  Register new league
                 </Button>
               </div>
             ) : (

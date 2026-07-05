@@ -146,4 +146,84 @@ function HomePage() {
 
                     <div className="mt-2 flex items-center justify-between font-medium">
                       <div className="flex items-center gap-2">
-                 
+                        {m.home?.logo_url && (
+                          <img src={m.home.logo_url} alt="" className="h-5 w-5 rounded" />
+                        )}
+                        <span>{m.home?.name ?? "TBD"}</span>
+                      </div>
+                      <span className="font-mono tabular-nums">{m.home_score}</span>
+                    </div>
+
+                    <div className="mt-1 flex items-center justify-between font-medium">
+                      <div className="flex items-center gap-2">
+                        {m.away?.logo_url && (
+                          <img src={m.away.logo_url} alt="" className="h-5 w-5 rounded" />
+                        )}
+                        <span>{m.away?.name ?? "TBD"}</span>
+                      </div>
+                      <span className="font-mono tabular-nums">{m.away_score}</span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </section>
+      )}
+
+      <MediaAdsSection />
+
+      <section className="mx-auto max-w-7xl px-4 py-8">
+        <div className="grid gap-6 lg:grid-cols-[1fr_1fr]">
+          {user && <FollowingFeed />}
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Welcome to RefAI</CardTitle>
+            </CardHeader>
+
+            <CardContent className="space-y-4">
+              <p className="text-muted-foreground">
+                RefAI is the all-in-one platform for AI-assisted officiating, live streaming,
+                multi-commentator audio and competition management built for local, school,
+                semi-pro and professional leagues alike.
+              </p>
+
+              <div className="space-y-2 text-sm">
+                <div className="flex items-center gap-2">
+                  <Trophy className="h-4 w-4 text-primary" />
+                  <span>League and team management tools</span>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <Radio className="h-4 w-4 text-primary" />
+                  <span>HD live streaming with real-time commentary</span>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <Users className="h-4 w-4 text-primary" />
+                  <span>VAR replay tooling and AI refereeing assistance</span>
+                </div>
+              </div>
+
+              <div className="flex flex-wrap gap-2">
+                {!user && (
+                  <Button asChild>
+                    <Link to="/auth">Get started</Link>
+                  </Button>
+                )}
+
+                <Button asChild variant="outline">
+                  <Link to="/help">
+                    <LifeBuoy className="mr-2 h-4 w-4" />
+                    Customer Care
+                  </Link>
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+    </PageShell>
+  );
+}

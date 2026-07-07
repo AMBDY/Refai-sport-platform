@@ -57,6 +57,7 @@ if (pathname !== '/dashboard/commentator') {
               </form>
             </CardContent>
           </Card>
+          <SiteAdSlot placement="middle" pageGroup="role_dashboards" />
           <Panel title="AI Commentary Assistant" items={['Interesting statistics','Player facts','Historical records','Goal probabilities','Substitution insights','VAR explanation']} />
           <Panel title="Timeline" items={['Goal','Cards','VAR','Substitution','Announcements']} />
         </main>

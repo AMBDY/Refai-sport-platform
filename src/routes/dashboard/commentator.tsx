@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, Outlet, useLocation } from '@tanstack/react-router';
 import { Mic, Send } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -13,6 +13,16 @@ export const Route = createFileRoute('/dashboard/commentator')({ component: Comm
 
 function CommentatorDashboard() {
   const { user } = useAuth();
+  const location = useLocation();
+const pathname = location.pathname.replace(/\/$/, '');
+
+if (pathname !== '/dashboard/commentator') {
+  return (
+    <RoleGuard allow="commentator" requireApproved={false}>
+      <Outlet />
+    </RoleGuard>
+  );
+}
 
   async function publish(form: FormData) {
     if (!user) return;

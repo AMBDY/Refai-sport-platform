@@ -12,6 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { SiteAdSlot } from "@/components/SiteAdSlot";
 
 export const Route = createFileRoute('/dashboard/sponsor')({ component: SponsorDashboard });
 
@@ -81,6 +82,7 @@ if (pathname !== '/dashboard/sponsor') {
           <Metric label="Active" value={(campaigns ?? []).filter((c: any) => c.approval_status === 'approved').length} />
           <Metric label="Rejected" value={(campaigns ?? []).filter((c: any) => c.approval_status === 'rejected').length} />
         </div>
+        <SiteAdSlot placement="middle" pageGroup="role_dashboards" />
         <Card>
           <CardHeader><CardTitle className="flex items-center gap-2"><Plus className="h-5 w-5 text-primary" />New Campaign</CardTitle></CardHeader>
           <CardContent>

@@ -47,14 +47,12 @@ function LeaguesIndex() {
 
       <section className="mx-auto max-w-7xl px-4 py-10">
         {isLoading ? (
-          <p className="text-muted-foreground">Loading leagues…</p>
+          <p className="text-muted-foreground">Loading matches...</p>
         ) : (data?.length ?? 0) === 0 ? (
-          <div className="rounded-lg border border-dashed p-10 text-center">
-            <p className="text-muted-foreground">No leagues yet. Be the first to create one.</p>
-          </div>
+          <p className="text-center text-muted-foreground">No matches scheduled yet.</p>
         ) : (
-      
-          <SiteAdSlot placement="middle" pageGroup="leagues" />
+          <>
+            <SiteAdSlot placement="middle" pageGroup="matches" />
       
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {data!.map((l) => (
@@ -83,8 +81,9 @@ function LeaguesIndex() {
                   )}
                 </Card>
               </Link>
-            ))}
-          </div>
+              ))}
+            </div>
+          </>
         )}
       </section>
     </PageShell>

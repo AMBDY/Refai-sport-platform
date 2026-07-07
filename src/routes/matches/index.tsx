@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { PageShell } from "@/components/PageShell";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { SiteAdSlot } from "@/components/SiteAdSlot";
 
 export const Route = createFileRoute("/matches/")({ component: MatchesPage });
 
@@ -54,8 +55,10 @@ function MatchesPage() {
         ) : (data?.length ?? 0) === 0 ? (
           <p className="text-center text-muted-foreground">No matches scheduled yet.</p>
         ) : (
-      <SiteAdSlot placement="middle" pageGroup="matches" />
-          <div className="space-y-3">
+          <>
+            <SiteAdSlot placement="middle" pageGroup="matches" />
+
+            <div className="space-y-3">
             {data!.map((m) => (
               <Link key={m.id} to="/matches/$id" params={{ id: m.id }}>
                 <Card className="transition-shadow hover:shadow-md">
@@ -92,8 +95,9 @@ function MatchesPage() {
                   </CardContent>
                 </Card>
               </Link>
-            ))}
-          </div>
+              ))}
+            </div>
+          </>
         )}
       </section>
     </PageShell>

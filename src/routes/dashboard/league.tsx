@@ -110,6 +110,9 @@ function LeagueDashboard() {
   return (
     <RoleGuard allow="league_owner" requireApproved={false}>
       <div className="space-y-6">
+        <SiteAdSlot placement="moving_text" pageGroup="role_dashboards" />
+        <SiteAdSlot placement="top" pageGroup="role_dashboards" />
+        
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
             <h1 className="text-2xl font-bold">League Owner Dashboard</h1>
@@ -199,6 +202,11 @@ function LeagueDashboard() {
         </Card>
 
         <InviteManager leagueId={primaryLeague?.id ?? null} />
+
+        <SiteAdSlot placement="bottom" pageGroup="role_dashboards" />
+        <SiteAdSlot placement="popup" pageGroup="role_dashboards" />
+        <SiteAdSlot placement="slide_in" pageGroup="role_dashboards" />
+      
       </div>
     </RoleGuard>
   );

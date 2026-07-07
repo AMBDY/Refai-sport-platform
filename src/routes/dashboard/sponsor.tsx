@@ -75,6 +75,10 @@ if (pathname !== '/dashboard/sponsor') {
   return (
     <RoleGuard allow="sponsor" requireApproved={false}>
       <div className="space-y-6">
+
+        <SiteAdSlot placement="moving_text" pageGroup="role_dashboards" />
+        <SiteAdSlot placement="top" pageGroup="role_dashboards" />
+        
         <div><h1 className="text-2xl font-bold">Sponsor / Advertiser</h1><p className="text-muted-foreground">Create campaigns, upload creatives, manage placements and wait for Super Admin approval.</p></div>
         <div className="grid gap-4 md:grid-cols-4">
           <Metric label="Campaigns" value={campaigns?.length ?? 0} />
@@ -82,7 +86,9 @@ if (pathname !== '/dashboard/sponsor') {
           <Metric label="Active" value={(campaigns ?? []).filter((c: any) => c.approval_status === 'approved').length} />
           <Metric label="Rejected" value={(campaigns ?? []).filter((c: any) => c.approval_status === 'rejected').length} />
         </div>
+        
         <SiteAdSlot placement="middle" pageGroup="role_dashboards" />
+        
         <Card>
           <CardHeader><CardTitle className="flex items-center gap-2"><Plus className="h-5 w-5 text-primary" />New Campaign</CardTitle></CardHeader>
           <CardContent>
@@ -106,6 +112,11 @@ if (pathname !== '/dashboard/sponsor') {
           </CardContent>
         </Card>
         <Card><CardHeader><CardTitle>My Campaigns</CardTitle></CardHeader><CardContent className="space-y-3">{(campaigns ?? []).length === 0 ? <p className="text-sm text-muted-foreground">No campaigns yet.</p> : campaigns!.map((c: any) => <div key={c.id} className="rounded-md border p-3"><p className="font-medium">{c.campaign_name}</p><p className="text-sm text-muted-foreground">{c.plan} / {c.approval_status}</p></div>)}</CardContent></Card>
+
+        <SiteAdSlot placement="bottom" pageGroup="role_dashboards" />
+        <SiteAdSlot placement="popup" pageGroup="role_dashboards" />
+        <SiteAdSlot placement="slide_in" pageGroup="role_dashboards" />
+        
       </div>
     </RoleGuard>
   );

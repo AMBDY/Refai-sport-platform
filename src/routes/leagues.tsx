@@ -53,6 +53,9 @@ function LeaguesIndex() {
             <p className="text-muted-foreground">No leagues yet. Be the first to create one.</p>
           </div>
         ) : (
+      
+          <SiteAdSlot placement="middle" pageGroup="leagues" />
+      
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {data!.map((l) => (
               <Link key={l.id} to="/leagues/$slug" params={{ slug: l.slug }}>

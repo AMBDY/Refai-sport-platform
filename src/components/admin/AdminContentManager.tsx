@@ -141,17 +141,22 @@ function AdsAdmin() {
       const media_url = file?.size ? await uploadFile('broadcast-assets', file, 'site-ads') : null;
 
       const { error } = await supabase.from('site_ads').insert({
-        name: String(form.get('name') || '').trim(),
-        page_path: String(form.get('page_path') || '*').trim(),
-        placement: String(form.get('placement') || 'banner').trim(),
-        display_type: String(form.get('display_type') || 'banner').trim(),
-        size: String(form.get('size') || 'responsive').trim(),
-        media_url,
-        html_code: String(form.get('html_code') || '').trim() || null,
-        destination_url: String(form.get('destination_url') || '').trim() || null,
-        is_active: form.get('is_active') === 'on',
-        created_by: profile?.id,
-        approved_by: profile?.id,
+      name: String(form.get('name') || '').trim(),
+      page_path: String(form.get('page_path') || '*').trim(),
+      page_group: String(form.get('page_group') || 'all').trim(),
+      placement: String(form.get('placement') || 'banner').trim(),
+      display_type: String(form.get('display_type') || 'banner').trim(),
+      size: String(form.get('size') || 'responsive').trim(),
+      animation_type: String(form.get('animation_type') || 'none').trim(),
+      text_content: String(form.get('text_content') || '').trim() || null,
+      media_url,
+      html_code: String(form.get('html_code') || '').trim() || null,
+      destination_url: String(form.get('destination_url') || '').trim() || null,
+      show_on_all_pages: form.get('show_on_all_pages') === 'on',
+      closeable: form.get('closeable') === 'on',
+      is_active: form.get('is_active') === 'on',
+      created_by: profile?.id,
+      approved_by: profile?.id,
       });
       if (error) throw error;
     },
@@ -188,6 +193,32 @@ function AdsAdmin() {
           <Field name="placement" label="Placement" placeholder="top, bottom, sidebar, hero, content" />
           <Field name="display_type" label="Display Type" placeholder="banner, popup, slide_in, overlay, watermark" />
           <Field name="size" label="Size" placeholder="responsive, 300x250, 728x90, fullscreen" />
+          <Field
+  name="page_group"
+  label="Page Group"
+  placeholder="all, homepage, role_dashboards, live, leagues, teams, viewer"
+/>
+
+<Field
+  name="animation_type"
+  label="Animation Type"
+  placeholder="none, fade, slide, popup, marquee"
+/>
+
+<Field
+  name="text_content"
+  label="Moving Text / Ad Text"
+/>
+
+<label className="flex items-center gap-2 text-sm">
+  <input name="show_on_all_pages" type="checkbox" />
+  Show on all pages
+</label>
+
+<label className="flex items-center gap-2 text-sm">
+  <input name="closeable" type="checkbox" defaultChecked />
+  Closeable popup / slide-in
+</label>
           <Field name="destination_url" label="Destination URL" />
           <div><Label>Media</Label><Input name="media" type="file" accept="image/*,video/*,.gif,.svg" /></div>
           <label className="flex items-center gap-2 text-sm"><input name="is_active" type="checkbox" /> Active immediately</label>

@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, Outlet, useLocation } from '@tanstack/react-router';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Megaphone, Plus } from 'lucide-react';
 import { toast } from 'sonner';
@@ -18,6 +18,16 @@ export const Route = createFileRoute('/dashboard/sponsor')({ component: SponsorD
 function SponsorDashboard() {
   const { user } = useAuth();
   const qc = useQueryClient();
+  const location = useLocation();
+const pathname = location.pathname.replace(/\/$/, '');
+
+if (pathname !== '/dashboard/sponsor') {
+  return (
+    <RoleGuard allow="sponsor" requireApproved={false}>
+      <Outlet />
+    </RoleGuard>
+  );
+}
 
   const { data: campaigns } = useQuery({
     queryKey: ['sponsor-campaigns', user?.id],

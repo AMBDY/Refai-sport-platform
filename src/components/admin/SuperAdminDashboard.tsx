@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { ReactNode } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { AdminContentManager } from '@/components/admin/AdminContentManager';
 import { toast } from 'sonner';
 import {
   BadgeDollarSign,
@@ -363,7 +364,7 @@ function SuperAdminControl() {
         />
 
         <Tabs defaultValue="leagues">
-          <TabsList className="grid grid-cols-7 bg-slate-950">
+          <TabsList className="grid grid-cols-8 bg-slate-950">
             <TabsTrigger value="leagues">Leagues</TabsTrigger>
             <TabsTrigger value="edits">League Edits</TabsTrigger>
             <TabsTrigger value="teams">Teams</TabsTrigger>
@@ -371,6 +372,7 @@ function SuperAdminControl() {
             <TabsTrigger value="wallets">Wallets</TabsTrigger>
             <TabsTrigger value="ads">Ads</TabsTrigger>
             <TabsTrigger value="support">Support</TabsTrigger>
+            <TabsTrigger value="site-control">Site Control</TabsTrigger>
           </TabsList>
 
           <TabsContent value="leagues">
@@ -522,6 +524,10 @@ function SuperAdminControl() {
     </div>
   );
 }
+
+        <TabsContent value="site-control">
+  <AdminContentManager />
+</TabsContent>
 
 function Metric({
   icon: Icon,

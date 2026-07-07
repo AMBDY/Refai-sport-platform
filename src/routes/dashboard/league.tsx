@@ -1,4 +1,4 @@
-import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
+import { createFileRoute, Link } from '@tanstack/react-router';
 import { useQuery } from '@tanstack/react-query';
 import {
   CalendarDays,
@@ -77,7 +77,6 @@ const modules = [
 
 function LeagueDashboard() {
   const { user } = useAuth();
-  const navigate = useNavigate();
   const { data: leagues, isLoading } = useQuery({
     queryKey: ['league-registrations', user?.id],
     enabled: !!user,

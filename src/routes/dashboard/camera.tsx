@@ -39,6 +39,10 @@ function CameraDashboard() {
   return (
     <RoleGuard allow="camera_operator" requireApproved={false}>
       <div className="space-y-6">
+
+        <SiteAdSlot placement="moving_text" pageGroup="role_dashboards" />
+        <SiteAdSlot placement="top" pageGroup="role_dashboards" />
+        
         <div>
           <h1 className="text-2xl font-bold">Camera Operator</h1>
           <p className="text-muted-foreground">Capture feeds, mark replays, upload clips and monitor stream quality.</p>
@@ -76,6 +80,10 @@ function CameraDashboard() {
             <Input type="file" accept="video/*" />
           </CardContent>
         </Card>
+
+        <SiteAdSlot placement="bottom" pageGroup="role_dashboards" />
+        <SiteAdSlot placement="popup" pageGroup="role_dashboards" />
+        <SiteAdSlot placement="slide_in" pageGroup="role_dashboards" />
       </div>
     </RoleGuard>
   );

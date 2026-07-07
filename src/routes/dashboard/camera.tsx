@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, Outlet, useLocation } from '@tanstack/react-router';
 import { Battery, Camera, Radio, Upload, Wifi } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -13,6 +13,16 @@ export const Route = createFileRoute('/dashboard/camera')({ component: CameraDas
 
 function CameraDashboard() {
   const { user } = useAuth();
+  const location = useLocation();
+  const pathname = location.pathname.replace(/\/$/, '');
+
+  if (pathname !== '/dashboard/camera') {
+  return (
+    <RoleGuard allow="camera_operator" requireApproved={false}>
+      <Outlet />
+    </RoleGuard>
+  );
+}
 
   async function log(action_type: string, payload: Record<string, unknown> = {}) {
     if (!user) return;

@@ -19,6 +19,7 @@ import { RoleGuard } from '@/components/auth/RoleGuard';
 import { InviteManager } from '@/components/onboarding/InviteManager';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { SiteAdSlot } from '@/components/SiteAdSlot';
 
 export const Route = createFileRoute('/dashboard/league')({
   component: LeagueDashboard,
@@ -147,6 +148,8 @@ function LeagueDashboard() {
             );
           })}
         </div>
+        
+        <SiteAdSlot placement="middle" pageGroup="role_dashboards" />
 
         <Card>
           <CardHeader>

@@ -64,6 +64,7 @@ function CameraDashboard() {
         </Card>
 
         <Panel title="Camera Controls" actions={['Pan Left','Pan Right','Tilt Up','Tilt Down','Zoom In','Zoom Out','Focus','Exposure','White Balance','Brightness','Contrast']} onAction={log} />
+        <SiteAdSlot placement="middle" pageGroup="role_dashboards" />
         <Panel title="Replay Marker" actions={['Goal','Foul','Penalty','Corner','VAR','Great Save','Injury','Substitution']} onAction={log} />
         <Panel title="Camera Assignment" actions={['Main Camera','Goal Camera Left','Goal Camera Right','Bench Camera','Crowd Camera','Drone','Tunnel Camera','VAR Camera']} onAction={log} />
 

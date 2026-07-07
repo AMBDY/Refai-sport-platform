@@ -11,6 +11,7 @@ import { MediaAdsSection } from "@/components/MediaAdsSection";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { SiteAdSlot } from '@/components/SiteAdSlot';
 
 export const Route = createFileRoute("/")({ component: HomePage });
 
@@ -120,6 +121,8 @@ function HomePage() {
         </div>
       </section>
 
+      <SiteAdSlot placement="middle" pageGroup="homepage" />
+
       {(liveMatches?.length ?? 0) > 0 && (
         <section className="mx-auto max-w-7xl px-4 py-8">
           <Card>
@@ -172,6 +175,8 @@ function HomePage() {
       )}
 
       <MediaAdsSection />
+
+      <SiteAdSlot placement="middle" pageGroup="homepage" />
 
       <section className="mx-auto max-w-7xl px-4 py-8">
         <div className="grid gap-6 lg:grid-cols-[1fr_1fr]">

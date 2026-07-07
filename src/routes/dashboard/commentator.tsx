@@ -5,6 +5,7 @@ import { toast } from 'sonner';
 import { RoleGuard } from '@/components/auth/RoleGuard';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/use-auth';
+import { SiteAdSlot } from "@/components/SiteAdSlot";
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';

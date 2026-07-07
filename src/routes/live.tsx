@@ -53,6 +53,7 @@ function LivePage() {
             <Link to="/matches" className="text-primary underline mt-2 inline-block">View upcoming matches</Link>
           </div>
         ) : (
+      <SiteAdSlot placement="middle" pageGroup="live" />
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {data!.map((m) => (
               <Link key={m.id} to="/matches/$id" params={{ id: m.id }}>

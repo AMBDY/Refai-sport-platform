@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { PageShell } from "@/components/PageShell";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { SiteAdSlot } from "@/components/SiteAdSlot";
 
 export const Route = createFileRoute("/live")({ component: LivePage });
 
@@ -46,14 +47,15 @@ function LivePage() {
           <h1 className="font-display text-3xl font-bold md:text-4xl">Live now</h1>
         </div>
       </section>
-      <section className="mx-auto max-w-7xl space-y-2 px-4 py-8">
-        {(data ?? []).length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-muted-foreground">No matches live right now.</p>
-            <Link to="/matches" className="text-primary underline mt-2 inline-block">View upcoming matches</Link>
-          </div>
+      <section className="mx-auto max-w-7xl px-4 py-8">
+        {isLoading ? (
+          <p className="text-muted-foreground">Loading matches...</p>
+        ) : (data?.length ?? 0) === 0 ? (
+          <p className="text-center text-muted-foreground">No matches scheduled yet.</p>
         ) : (
-      <SiteAdSlot placement="middle" pageGroup="live" />
+          <>
+            <SiteAdSlot placement="middle" pageGroup="matches" />
+
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {data!.map((m) => (
               <Link key={m.id} to="/matches/$id" params={{ id: m.id }}>
@@ -80,8 +82,9 @@ function LivePage() {
                   </CardContent>
                 </Card>
               </Link>
-            ))}
-          </div>
+              ))}
+            </div>
+          </>
         )}
       </section>
     </PageShell>

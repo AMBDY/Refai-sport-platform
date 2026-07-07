@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from '@tanstack/react-router';
+import { createFileRoute, Link, Outlet, useLocation } from '@tanstack/react-router';
 import { useQuery } from '@tanstack/react-query';
 import {
   CalendarDays,
@@ -77,6 +77,18 @@ const modules = [
 
 function LeagueDashboard() {
   const { user } = useAuth();
+  const location = useLocation();
+
+  const pathname = location.pathname.replace(/\/$/, '');
+
+  if (pathname !== '/dashboard/league') {
+    return (
+      <RoleGuard allow="league_owner" requireApproved={false}>
+        <Outlet />
+      </RoleGuard>
+    );
+  }
+
   const { data: leagues, isLoading } = useQuery({
     queryKey: ['league-registrations', user?.id],
     enabled: !!user,
@@ -106,34 +118,35 @@ function LeagueDashboard() {
           </div>
 
           <Button asChild>
-          <a href="/dashboard/league/register">
-          Register new league
-          </a>
+            <a href="/dashboard/league/register">
+              <PlusCircle className="mr-2 h-4 w-4" />
+              Register new league
+            </a>
           </Button>
         </div>
 
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-  {modules.map((module) => {
-    const Icon = module.icon;
+          {modules.map((module) => {
+            const Icon = module.icon;
 
-    return (
-      <a key={module.title} href={module.href} className="block">
-        <Card className="h-full cursor-pointer transition hover:border-primary hover:shadow-md">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-base">
-              <Icon className="h-4 w-4 text-primary" />
-              {module.title}
-            </CardTitle>
-          </CardHeader>
+            return (
+              <a key={module.title} href={module.href} className="block">
+                <Card className="h-full cursor-pointer transition hover:border-primary hover:shadow-md">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-base">
+                      <Icon className="h-4 w-4 text-primary" />
+                      {module.title}
+                    </CardTitle>
+                  </CardHeader>
 
-          <CardContent>
-            <p className="text-sm text-muted-foreground">{module.desc}</p>
-          </CardContent>
-        </Card>
-      </a>
-    );
-  })}
-</div>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground">{module.desc}</p>
+                  </CardContent>
+                </Card>
+              </a>
+            );
+          })}
+        </div>
 
         <Card>
           <CardHeader>
@@ -152,8 +165,8 @@ function LeagueDashboard() {
                   No league yet. Use the button above to register your first league.
                 </p>
 
-                <Button onClick={() => navigate({ to: '/dashboard/league/register' as never })}>
-                  Register new league
+                <Button asChild>
+                  <a href="/dashboard/league/register">Register new league</a>
                 </Button>
               </div>
             ) : (

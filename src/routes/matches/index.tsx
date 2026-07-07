@@ -54,6 +54,7 @@ function MatchesPage() {
         ) : (data?.length ?? 0) === 0 ? (
           <p className="text-center text-muted-foreground">No matches scheduled yet.</p>
         ) : (
+      <SiteAdSlot placement="middle" pageGroup="matches" />
           <div className="space-y-3">
             {data!.map((m) => (
               <Link key={m.id} to="/matches/$id" params={{ id: m.id }}>

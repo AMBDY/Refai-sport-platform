@@ -41,6 +41,11 @@ if (pathname !== '/dashboard/commentator') {
 
   return (
     <RoleGuard allow="commentator" requireApproved={false}>
+      <div className="space-y-6">
+        
+        <SiteAdSlot placement="moving_text" pageGroup="role_dashboards" />
+        <SiteAdSlot placement="top" pageGroup="role_dashboards" />
+          
       <div className="grid gap-6 xl:grid-cols-[1fr_360px]">
         <main className="space-y-6">
           <Card><CardHeader><CardTitle>Match Header</CardTitle></CardHeader><CardContent className="grid gap-3 md:grid-cols-4"><Stat label="Score" value="0 - 0" /><Stat label="Minute" value="00:00" /><Stat label="Weather" value="Clear" /><Stat label="Attendance" value="Pending" /></CardContent></Card>
@@ -66,6 +71,10 @@ if (pathname !== '/dashboard/commentator') {
           <Panel title="Statistics Sidebar" items={['Possession','Shots','Corners','Cards','Pass Accuracy','Top Scorer','Heatmaps','Expected Goals']} />
           <Card><CardHeader><CardTitle>Match Notes</CardTitle></CardHeader><CardContent><Textarea rows={8} placeholder="Private notes..." /></CardContent></Card>
         </aside>
+      </div>
+        <SiteAdSlot placement="bottom" pageGroup="role_dashboards" />
+        <SiteAdSlot placement="popup" pageGroup="role_dashboards" />
+        <SiteAdSlot placement="slide_in" pageGroup="role_dashboards" />
       </div>
     </RoleGuard>
   );

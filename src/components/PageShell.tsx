@@ -1,9 +1,21 @@
 import type { ReactNode } from "react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { SiteAdSlot } from '@/components/SiteAdSlot';
 import { SiteNotificationBanner } from '@/components/SiteNotificationBanner';
 
-<SiteNotificationBanner />
+<>
+  <SiteNotificationBanner />
+
+  <SiteAdSlot placement="moving_text" />
+  <SiteAdSlot placement="top" />
+
+  {children}
+
+  <SiteAdSlot placement="bottom" />
+  <SiteAdSlot placement="popup" />
+  <SiteAdSlot placement="slide_in" />
+</>
 
 export function PageShell({ children }: { children: ReactNode }) {
   return (
